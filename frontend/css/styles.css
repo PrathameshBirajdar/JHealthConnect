@@ -1,0 +1,43 @@
+document.addEventListener('DOMContentLoaded', ()=> {
+        fetch('/api/doctors') .then(r=> r.json()) .then(docs=> {
+                const list=document.getElementById('doctor-list');
+                list.innerHTML='';
+
+                docs.forEach(doc=> {
+                        const card=document.createElement('div');
+                        card.className='doctor-card';
+
+                        card.innerHTML=` <img src="${doc.photoUrl || '/assets/doctor1.jpg'}" alt="${doc.name}" > <h3>$ {
+                            doc.name
+                        }
+
+                        </h3> <p>$ {
+                            doc.specialization
+                        }
+
+                        — $ {
+                            doc.location
+                        }
+
+                        </p> <button class="book-btn" data-id="${doc.id}" data-name="${encodeURIComponent(doc.name)}" >Book</button> `;
+                        list.appendChild(card);
+                    });
+
+                document.querySelectorAll('.book-btn').forEach(b=> {
+                        b.addEventListener('click', ()=> {
+                                const id=b.dataset.id;
+                                const name=decodeURIComponent(b.dataset.name);
+
+                                window.location=`/appointment.html?doctorId=$ {
+                                    id
+                                }
+
+                                &doctorName=$ {
+                                    encodeURIComponent(name)
+                                }
+
+                                `;
+                            });
+                    });
+            }) .catch(err=> console.error(err));
+    });

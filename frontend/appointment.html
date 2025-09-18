@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Book Appointment - JHealthConnect</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <h1>Book Appointment</h1>
+
+<form id="appointment-form">
+    <input type="number" id="doctorId" placeholder="Doctor ID" required />
+    <input type="text" id="date" placeholder="Date (YYYY-MM-DD)" required />
+    <input type="text" id="patientName" placeholder="Patient Name" required />
+    <input type="number" id="age" placeholder="Age" required />
+    <input type="text" id="gender" placeholder="Gender" required />
+    <input type="text" id="contact" placeholder="Contact" required />
+    <button type="submit">Book Appointment</button>
+</form>
+
+
+    <p id="message"></p>
+
+    <script src="js/appointment.js"></script>
+</body>
+
+</html>

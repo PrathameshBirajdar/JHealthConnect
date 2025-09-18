@@ -3,20 +3,22 @@
 
 <head>
     <meta charset="utf-8">
-    <title>JHealthConnect - Home</title>
+    <title>Doctors - JHealthConnect</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="/css/styles.css">
+    <script defer src="/js/doctors.js"></script>
 </head>
 
 <body>
+    <div id="doctor-list"></div>
     <div class="container">
         <aside class="sidebar">
             <div class="logo">
                 <h2><span class="j">J</span>HealthConnect</h2>
             </div>
             <nav>
-                <a href="/index.html" class="menu-item active">🏠 Home</a>
-                <a href="/doctors.html" class="menu-item">🩺 Doctors</a>
+                <a href="/index.html" class="menu-item">🏠 Home</a>
+                <a href="/doctors.html" class="menu-item active">🩺 Doctors</a>
                 <a href="/appointment.html" class="menu-item">📄 Appointment</a>
                 <a href="/insurance.html" class="menu-item">💳 Insurance</a>
             </nav>
@@ -24,16 +26,13 @@
 
         <main class="main">
             <header class="header">
-                <h1>Welcome to JHealthConnect</h1>
+                <h1>Our Doctors</h1>
                 <div class="user-profile">
                     <div class="user-icon">👤</div><span>User</span>
                 </div>
             </header>
-
-            <section class="content hero">
-                <h2>Book appointments with nearby doctors</h2>
-                <p>Fast. Secure. Local.</p>
-                <a class="btn" href="/doctors.html">Find Doctors</a>
+            <section class="content">
+                <div id="doctor-list" class="doctor-list"></div>
             </section>
         </main>
     </div>
