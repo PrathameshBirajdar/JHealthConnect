@@ -1,6 +1,7 @@
-package com.jhealthconnect.backend.repository;
+package com.jhealthconnect.backend.duplicate;
+
+import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.jhealthconnect.backend.model.InsuranceClaim;
-import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface InsuranceRepository extends JpaRepository<InsuranceClaim, Long> {}

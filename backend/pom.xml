@@ -40,13 +40,7 @@
             <scope>runtime</scope>
         </dependency>
 
-        <!-- Lombok (make sure IDE annotation processing is enabled) -->
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>1.18.26</version>
-            <scope>provided</scope>
-        </dependency>
+        <!-- Lombok removed for local build stability -->
 
         <!-- Optional: templates/static if used -->
         <dependency>

@@ -1,4 +1,4 @@
-package com.jhealthconnect.backend.controller;
+package com.jhealthconnect.backend.duplicate;
 
 import java.util.HashMap;
 import java.util.Map;
