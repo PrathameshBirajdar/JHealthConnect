@@ -8,7 +8,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/appointments")
-@CrossOrigin(origins = "http://localhost:5500")
+@CrossOrigin(origins = {"http://localhost:5500", "http://localhost:3000", "http://127.0.0.1:3000"})
 public class AppointmentController {
     private final AppointmentRepository repo;
 
