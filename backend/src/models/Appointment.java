@@ -1,4 +1,4 @@
-package com.jhealthconnect.model;
+package com.jhealthconnect.backend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,16 +10,15 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Long doctorId;
     private String patientName;
-    private int age;
+    private Integer age;
     private String gender;
     private String contact;
     private String date;

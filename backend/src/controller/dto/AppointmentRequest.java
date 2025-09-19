@@ -1,4 +1,4 @@
-package com.jhealthconnect.controller;
+package com.jhealthconnect.backend.controller.dto;
 
 import lombok.Data;
 

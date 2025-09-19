@@ -1,12 +1,10 @@
 <!doctype html>
 <html>
-
 <head>
     <meta charset="utf-8">
-    <title>Home - JHealthConnect</title>
+    <title>Doctors - JHealthConnect</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="/css/styles.css">
-    <script defer src="/js/main.js"></script>
     <style>
         body {
             background: #0d5c86;
@@ -65,82 +63,92 @@
             font-weight: 700;
             margin-bottom: 1.5rem;
         }
-        .welcome-section {
+        .doctor-list {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: nowrap;
+            gap: 2.5rem;
+            margin-top: 1.5rem;
+            overflow-x: auto;
+            padding-bottom: 1rem;
+        }
+        .doctor-card {
             background: #fff;
             border-radius: 2rem;
             box-shadow: 0 2px 16px rgba(0,0,0,0.10);
-            padding: 2.5rem 2rem;
-            max-width: 600px;
-            margin: 2rem auto 0 auto;
-            text-align: center;
-        }
-        .welcome-section h2 {
-            color: #15608a;
-            font-size: 2rem;
-            margin-bottom: 1rem;
-        }
-        .welcome-section p {
-            color: #333;
-            font-size: 1.15rem;
-            margin-bottom: 2rem;
-        }
-        .quick-links {
+            padding: 0 0 2rem 0;
+            width: 350px;
+            min-width: 320px;
             display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
+            flex-direction: column;
+            align-items: center;
+            transition: box-shadow 0.2s;
+            flex: 0 0 auto;
         }
-        .quick-link-card {
+        .doctor-card:hover {
+            box-shadow: 0 4px 24px rgba(0,0,0,0.18);
+        }
+        .doctor-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-top-left-radius: 2rem;
+            border-top-right-radius: 2rem;
+        }
+        .doctor-info {
+            padding: 1.2rem 1.5rem 0 1.5rem;
+            text-align: left;
+            width: 100%;
+        }
+        .doctor-name {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .doctor-specialty {
+            color: #0d5c86;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+        .book-btn {
+            margin-top: 1.2rem;
             background: #8faefc;
             color: #fff;
-            border-radius: 1.2rem;
-            padding: 1.2rem 2rem;
+            border: none;
+            border-radius: 0.7rem;
+            padding: 0.6rem 2.2rem;
             font-size: 1.1rem;
             font-weight: 500;
-            text-decoration: none;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            cursor: pointer;
             transition: background 0.2s;
         }
-        .quick-link-card:hover {
+        .book-btn:hover {
             background: #5c7fd6;
         }
     </style>
+    <script defer src="/js/doctor.js"></script>
 </head>
-
 <body>
     <div class="container">
         <aside class="sidebar">
             <img src="/img/logo.png" alt="JHealthConnect Logo" class="sidebar-logo" />
             <nav class="sidebar-nav">
-                <a href="index.html" class="sidebar-link active"><span>🏠</span> Home</a>
-                <a href="doctor.html" class="sidebar-link"><span>🩺</span> Doctor's</a>
-                <a href="appointment.html" class="sidebar-link"><span>�</span> Appointment</a>
-                <a href="insurance.html" class="sidebar-link"><span>�</span> Insurance</a>
+                <a href="index.html" class="sidebar-link"><span>🏠</span> Home</a>
+                <a href="doctors.html" class="sidebar-link active"><span>🩺</span> Doctor's</a>
+                <a href="appointment.html" class="sidebar-link"><span>📝</span> Appointment</a>
+                <a href="insurance.html" class="sidebar-link"><span>📋</span> Insurance</a>
             </nav>
         </aside>
-
         <main class="main">
             <header class="header">
-                <h1>Welcome to JHealthConnect</h1>
+                <h1>Our Doctors</h1>
             </header>
-            <section class="welcome-section">
-                <h2>Your Health, Our Priority</h2>
-                <p>Book appointments, consult top doctors, and manage your insurance claims all in one place. JHealthConnect brings healthcare to your fingertips with a seamless and secure experience.</p>
-                <div class="quick-links">
-                    <a href="/doctor.html" class="quick-link-card">Find a Doctor</a>
-                    <a href="/appointment.html" class="quick-link-card">Book Appointment</a>
-                    <a href="/insurance.html" class="quick-link-card">Insurance Claim</a>
+            <section class="content">
+                <div id="doctor-list" class="doctor-list">
+                    <!-- Doctor cards will be injected here by JS -->
                 </div>
-            </section>
-            </header>
-
-            <section class="content hero">
-                <h2>Book appointments with nearby doctors</h2>
-                <p>Fast. Secure. Local.</p>
-                <a class="btn" href="/doctors.html">Find Doctors</a>
             </section>
         </main>
     </div>
 </body>
-
 </html>

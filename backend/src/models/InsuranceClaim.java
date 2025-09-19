@@ -1,4 +1,4 @@
-package com.jhealthconnect.model;
+package com.jhealthconnect.backend.model;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -10,15 +10,14 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class InsuranceClaim {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String patientName;
     private String policyNumber;
     private String hospitalName;
-    private String claimStatus; // Pending, Approved, Rejected
+    private String claimStatus;
 }

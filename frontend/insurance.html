@@ -3,27 +3,218 @@
 
 <head>
     <meta charset="utf-8">
-    <title>Insurance Claim - JHealthConnect</title>
+    <title>Insurance - JHealthConnect</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            background: #0d5c86;
+            margin: 0;
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+        }
+
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            background: #15608a;
+            color: #fff;
+            width: 270px;
+            padding: 2rem 1rem 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .sidebar-logo {
+            width: 90%;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-nav {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: .8rem;
+            background: #217dbb;
+            color: #fff;
+            border-radius: 1.2rem;
+            padding: .8rem 1.2rem;
+            font-size: 1.15rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: background .2s;
+        }
+
+        .sidebar-link:hover,
+        .sidebar-link.active {
+            background: #8faefc;
+            color: #fff;
+        }
+
+        .main {
+            flex: 1;
+            padding: 2.5rem 2.5rem 2.5rem 2rem;
+            background: #0d5c86;
+            min-height: 100vh;
+        }
+
+        .header h1 {
+            color: #fff;
+            font-size: 2.3rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .content {
+            margin-top: 1rem;
+            color: #fff;
+        }
+
+        .card {
+            background: #fff;
+            border-radius: 1.2rem;
+            padding: 1.6rem;
+            box-shadow: 0 2px 18px rgba(0, 0, 0, .12);
+            max-width: 920px;
+            color: #0d5c86;
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .form-col {
+            flex: 1;
+            min-width: 200px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: 600;
+            margin-bottom: .4rem;
+        }
+
+        input[type="text"],
+        input[type="number"],
+        input[type="date"],
+        select,
+        textarea {
+            padding: .7rem .8rem;
+            border: 1px solid #d6e6f6;
+            border-radius: .6rem;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+
+        .submit-btn {
+            margin-top: 1rem;
+            background: #8faefc;
+            color: #fff;
+            border: none;
+            border-radius: .7rem;
+            padding: .8rem 2.4rem;
+            font-size: 1.05rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background .2s;
+        }
+
+        .submit-btn:hover {
+            background: #5c7fd6;
+        }
+
+        .note {
+            margin-top: 1rem;
+            font-size: .95rem;
+            color: #3a6b8f;
+        }
+    </style>
     <script defer src="/js/insurance.js"></script>
 </head>
 
 <body>
     <div class="container">
-        <aside class="sidebar"> ... </aside>
+        <aside class="sidebar">
+            <img src="/img/logo.png" alt="JHealthConnect Logo" class="sidebar-logo" />
+            <nav class="sidebar-nav">
+                <a href="index.html" class="sidebar-link"><span>🏠</span> Home</a>
+                <a href="doctor.html" class="sidebar-link"><span>🩺</span> Doctor's</a>
+                <a href="appointment.html" class="sidebar-link"><span>📝</span> Appointment</a>
+                <a href="insurance.html" class="sidebar-link active"><span>📋</span> Insurance</a>
+            </nav>
+        </aside>
+
         <main class="main">
             <header class="header">
-                <h1>Insurance Claim</h1>
+                <h1>Submit Insurance Claim</h1>
             </header>
-            <section class="content">
-                <form id="insurance-form">
-                    <input type="text" id="patientName" placeholder="Patient Name" required />
-                    <input type="text" id="policyNumber" placeholder="Policy Number" required />
-                    <input type="text" id="hospitalName" placeholder="Hospital Name" required />
-                    <button type="submit">Submit Claim</button>
-                </form>
 
+            <section class="content">
+                <div class="card">
+                    <form id="insurance-form">
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="patientName">Patient Name</label>
+                                <input type="text" id="patientName" name="patientName" required />
+                            </div>
+                            <div class="form-col">
+                                <label for="policyNumber">Policy Number</label>
+                                <input type="text" id="policyNumber" name="policyNumber" required />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="hospitalName">Hospital / Clinic</label>
+                                <input type="text" id="hospitalName" name="hospitalName" />
+                            </div>
+                            <div class="form-col">
+                                <label for="claimAmount">Claim Amount</label>
+                                <input type="number" id="claimAmount" name="claimAmount" min="0" step="0.01" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label for="claimDate">Date of Treatment</label>
+                                <input type="date" id="claimDate" name="claimDate" />
+                            </div>
+                            <div class="form-col">
+                                <label for="contact">Contact</label>
+                                <input type="text" id="contact" name="contact" />
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-col" style="flex:1">
+                                <label for="notes">Notes / Description</label>
+                                <textarea id="notes" name="notes"></textarea>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Submit Claim</button>
+                        <p class="note">After submission, the claim will be reviewed. You can track status on the Insurance page.
+                        </p>
+                    </form>
+                </div>
             </section>
         </main>
     </div>
