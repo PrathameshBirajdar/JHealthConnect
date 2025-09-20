@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JHealthConnect - Dashboard</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="app-container">
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+
+        <div class="main-content">
+            <div th:replace="fragments/header :: header"></div>
+
+            <div class="content-area">
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <div class="welcome-card">
+                        <div class="welcome-content">
+                            <h2>Welcome back, <span th:text="${session.userName}">John</span>!</h2>
+                            <p>Manage your health appointments and stay connected with top healthcare providers.</p>
+                        </div>
+                        <div class="welcome-stats">
+                            <div class="stat-item">
+                                <i class="fas fa-calendar-check"></i>
+                                <div>
+                                    <span class="stat-number">5</span>
+                                    <span class="stat-label">Upcoming Appointments</span>
+                                </div>
+                            </div>
+                            <div class="stat-item">
+                                <i class="fas fa-user-md"></i>
+                                <div>
+                                    <span class="stat-number">12</span>
+                                    <span class="stat-label">Doctors Available</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Doctors Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-user-md"></i> Top Rated Doctors</h3>
+                        <a href="/doctors" class="view-all-btn">View All</a>
+                    </div>
+                    <div class="horizontal-scroll">
+                        <div class="card-container">
+                            <div th:each="doctor : ${topDoctors}" class="doctor-card"
+                                th:onclick="'viewDoctorDetails(' + ${doctor.id} + ')'">
+                                <div class="card-image">
+                                    <img th:src="@{'/images/doctors/' + ${doctor.image}}" alt="Doctor"
+                                        class="doctor-image">
+                                    <div class="rating-badge">
+                                        <i class="fas fa-star"></i>
+                                        <span th:text="${doctor.rating}">4.8</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h5 th:text="'Dr. ' + ${doctor.name}">Dr. Sarah Johnson</h5>
+                                    <p class="specialization" th:text="${doctor.specialization}">Cardiologist</p>
+                                    <p class="experience" th:text="${doctor.experience} + ' years experience'">10 years
+                                        experience</p>
+                                    <div class="card-footer">
+                                        <span class="availability"
+                                            th:classappend="${doctor.available} ? 'available' : 'unavailable'">
+                                            <i class="fas fa-circle"></i>
+                                            <span th:text="${doctor.available} ? 'Available' : 'Busy'">Available</span>
+                                        </span>
+                                        <button class="btn-book"
+                                            th:onclick="'bookAppointment(' + ${doctor.id} + ')'">Book</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Insurance Companies Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-shield-alt"></i> Top Insurance Providers</h3>
+                        <a href="/insurance" class="view-all-btn">View All</a>
+                    </div>
+                    <div class="horizontal-scroll">
+                        <div class="card-container">
+                            <div th:each="insurance : ${topInsurance}" class="insurance-card"
+                                th:onclick="'viewInsuranceDetails(' + ${insurance.id} + ')'">
+                                <div class="card-image">
+                                    <img th:src="@{'/images/insurance/' + ${insurance.logo}}" alt="Insurance"
+                                        class="insurance-logo">
+                                    <div class="coverage-badge">
+                                        <span th:text="${insurance.coverage} + '% Coverage'">95% Coverage</span>
+                                    </div>
+                                </div>
+                                <div class="card-content">
+                                    <h5 th:text="${insurance.name}">HealthFirst Insurance</h5>
+                                    <p class="insurance-type" th:text="${insurance.type}">Health & Life Insurance</p>
+                                    <div class="features">
+                                        <span class="feature-tag" th:each="feature : ${insurance.features}"
+                                            th:text="${feature}">Cashless</span>
+                                    </div>
+                                    <div class="card-footer">
+                                        <div class="price">
+                                            <span class="amount"
+                                                th:text="'₹' + ${insurance.premium} + '/month'">₹2,500/month</span>
+                                        </div>
+                                        <button class="btn-apply"
+                                            th:onclick="'applyInsurance(' + ${insurance.id} + ')'">Apply</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pending Appointments Section -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-clock"></i> Pending Appointments</h3>
+                        <a href="/appointments" class="view-all-btn">View All</a>
+                    </div>
+                    <div class="horizontal-scroll">
+                        <div class="card-container">
+                            <div th:each="appointment : ${pendingAppointments}" class="appointment-card"
+                                th:onclick="'viewAppointmentDetails(' + ${appointment.id} + ')'">
+                                <div class="appointment-header">
+                                    <div class="doctor-info">
+                                        <img th:src="@{'/images/doctors/' + ${appointment.doctor.image}}" alt="Doctor"
+                                            class="doctor-thumb">
+                                        <div>
+                                            <h6 th:text="'Dr. ' + ${appointment.doctor.name}">Dr. Michael Brown</h6>
+                                            <span class="specialization"
+                                                th:text="${appointment.doctor.specialization}">Dermatologist</span>
+                                        </div>
+                                    </div>
+                                    <div class="status-badge pending">
+                                        <i class="fas fa-clock"></i>
+                                        <span>Pending</span>
+                                    </div>
+                                </div>
+                                <div class="appointment-details">
+                                    <div class="detail-item">
+                                        <i class="fas fa-calendar"></i>
+                                        <span th:text="${appointment.date}">March 25, 2024</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-clock"></i>
+                                        <span th:text="${appointment.time}">10:30 AM</span>
+                                    </div>
+                                    <div class="detail-item">
+                                        <i class="fas fa-map-marker-alt"></i>
+                                        <span th:text="${appointment.location}">City Hospital</span>
+                                    </div>
+                                </div>
+                                <div class="appointment-actions">
+                                    <button class="btn-cancel"
+                                        th:onclick="'cancelAppointment(' + ${appointment.id} + ')'">Cancel</button>
+                                    <button class="btn-reschedule"
+                                        th:onclick="'rescheduleAppointment(' + ${appointment.id} + ')'">Reschedule</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="section">
+                    <div class="section-header">
+                        <h3><i class="fas fa-bolt"></i> Quick Actions</h3>
+                    </div>
+                    <div class="quick-actions">
+                        <div class="action-card" onclick="window.location.href='/book-appointment'">
+                            <i class="fas fa-calendar-plus"></i>
+                            <h5>Book Appointment</h5>
+                            <p>Schedule a new appointment with your preferred doctor</p>
+                        </div>
+                        <div class="action-card" onclick="window.location.href='/emergency'">
+                            <i class="fas fa-ambulance"></i>
+                            <h5>Emergency</h5>
+                            <p>Find nearby emergency services and hospitals</p>
+                        </div>
+                        <div class="action-card" onclick="window.location.href='/health-records'">
+                            <i class="fas fa-file-medical-alt"></i>
+                            <h5>Health Records</h5>
+                            <p>Access and manage your medical history</p>
+                        </div>
+                        <div class="action-card" onclick="window.location.href='/lab-reports'">
+                            <i class="fas fa-vial"></i>
+                            <h5>Lab Reports</h5>
+                            <p>View your recent test results and reports</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script th:src="@{/js/script.js}"></script>
+    <script>
+        function viewDoctorDetails(doctorId) {
+            window.location.href = '/doctor-details/' + doctorId;
+        }
+
+        function viewInsuranceDetails(insuranceId) {
+            window.location.href = '/insurance-details/' + insuranceId;
+        }
+
+        function viewAppointmentDetails(appointmentId) {
+            window.location.href = '/appointment-details/' + appointmentId;
+        }
+
+        function bookAppointment(doctorId) {
+            event.stopPropagation();
+            window.location.href = '/book-appointment?doctorId=' + doctorId;
+        }
+
+        function applyInsurance(insuranceId) {
+            event.stopPropagation();
+            window.location.href = '/apply-insurance?insuranceId=' + insuranceId;
+        }
+
+        function cancelAppointment(appointmentId) {
+            event.stopPropagation();
+            if (confirm('Are you sure you want to cancel this appointment?')) {
+                // API call to cancel appointment
+                window.location.href = '/cancel-appointment/' + appointmentId;
+            }
+        }
+
+        function rescheduleAppointment(appointmentId) {
+            event.stopPropagation();
+            window.location.href = '/reschedule-appointment/' + appointmentId;
+        }
+    </script>
+</body>
+
+</html>

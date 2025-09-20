@@ -1,0 +1,9 @@
+<div class="card mb-3">
+    <div class="card-body">
+        <h5 class="card-title" th:text="${appointment.patientName}">Patient Name</h5>
+        <p class="card-text"><strong>Doctor:</strong> <span th:text="${appointment.doctor.name}"></span></p>
+        <p class="card-text"><strong>Date:</strong> <span th:text="${appointment.date}"></span></p>
+        <p class="card-text"><strong>Status:</strong> <span th:text="${appointment.status}"></span></p>
+        <a th:href="@{/appointments}" class="btn btn-secondary">Back</a>
+    </div>
+</div>

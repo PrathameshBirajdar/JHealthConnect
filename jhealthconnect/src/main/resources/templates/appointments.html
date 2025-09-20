@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Appointments</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div th:replace="fragments/sidebar :: *"></div>
+
+    <!-- Page Content -->
+    <div class="content">
+        <h1>Appointments</h1>
+
+        <table border="1" cellpadding="8" cellspacing="0">
+            <tr>
+                <th>ID</th>
+                <th>Doctor</th>
+                <th>Patient</th>
+                <th>Date</th>
+                <th>Actions</th>
+            </tr>
+            <tr th:each="appt : ${appointments}">
+                <td th:text="${appt.id}"></td>
+                <td th:text="${appt.doctor.name}"></td>
+                <td th:text="${appt.patientName}"></td>
+                <td th:text="${appt.date}"></td>
+                <td>
+                    <a th:href="@{/appointments/edit/{id}(id=${appt.id})}">✏️ Edit</a> |
+                    <a th:href="@{/appointments/delete/{id}(id=${appt.id})}">❌ Delete</a>
+                </td>
+            </tr>
+        </table>
+
+        <br>
+        <a href="/appointments/add">➕ Add Appointment</a>
+    </div>
+</body>
+
+</html>

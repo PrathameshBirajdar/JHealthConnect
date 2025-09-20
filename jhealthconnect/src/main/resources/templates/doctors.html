@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Doctors</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+    <!-- Sidebar -->
+    <div th:replace="fragments/sidebar :: *"></div>
+
+    <!-- Page Content -->
+    <div class="content">
+        <h1>Doctors List</h1>
+        <ul>
+            <li th:each="doctor : ${doctors}" th:text="${doctor.name}"></li>
+        </ul>
+        <a href="/doctors/add">➕ Add New Doctor</a>
+    </div>
+</body>
+
+</html>

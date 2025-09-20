@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JHealthConnect - Doctor Details</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div class="app-container">
+        <div th:replace="fragments/sidebar :: sidebar"></div>
+
+        <div class="main-content">
+            <div th:replace="fragments/header :: header"></div>
+
+            <div class="content-area">
+                <div class="doctor-details-container">
+                    <!-- Doctor Header -->
+                    <div class="doctor-header-card">
+                        <div class="doctor-profile">
+                            <img th:src="@{'/images/doctors/' + ${doctor.image}}" alt="Doctor"
+                                class="doctor-profile-image">
+                            <div class="doctor-info">
+                                <h2 th:text="'Dr. ' + ${doctor.name}">Dr. Sarah Johnson</h2>
+                                <p class="specialization" th:text="${doctor.specialization}">Cardiologist</p>
+                                <div class="doctor-rating">
+                                    <div class="stars">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <span th:text="${doctor.rating} + ' (' + ${doctor.reviewCount} + ' reviews)'">4.8
+                                        (124 reviews)</span>
+                                </div>
+                                <div class="doctor-badges">
+                                    <span class="badge verified">
+                                        <i class="fas fa-check-circle"></i> Verified
+                                    </span>
+                                    <span class="badge available" th:if="${doctor.available}">
+                                        <i class="fas fa-circle"></i> Available Today
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="doctor-actions">
+                            <button class="btn-book-appointment" th:onclick="'bookAppointment(' + ${doctor.id} + ')'">
+                                <i class="fas fa-calendar-plus"></i>
+                                Book Appointment
+                            </button>
+                            <button class="btn-chat">
+                                <i class="fas fa-comments"></i>
+                                Chat Now
+                            </button>
+                            <button class="btn-favorite" th:onclick="'toggleFavorite(' + ${doctor.id} + ')'">
+                                <i class="far fa-heart"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="doctor-content">
+                        <!-- Quick Info Cards -->
+                        <div class="quick-info-grid">
+                            <div class="info-card">
+                                <i class="fas fa-graduation-cap"></i>
+                                <div>
+                                    <h6>Experience</h6>
+                                    <p th:text="${doctor.experience} + ' Years'">10 Years</p>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <i class="fas fa-users"></i>
+                                <div>
+                                    <h6>Patients Treated</h6>
+                                    <p th:text="${doctor.patientsCount} + '+'">5000+</p>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <i class="fas fa-clock"></i>
+                                <div>
+                                    <h6>Consultation Fee</h6>
+                                    <p th:text="'₹' + ${doctor.consultationFee}">₹500</p>
+                                </div>
+                            </div>
+                            <div class="info-card">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <div>
+                                    <h6>Location</h6>
+                                    <p th:text="${doctor.location}">Mumbai, Maharashtra</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Main Content Sections -->
+                        <div class="detail-sections">
+                            <!-- About Section -->
+                            <div class="detail-section">
+                                <h4><i class="fas fa-user-md"></i> About Dr. <span th:text="${doctor.name}">Sarah
+                                        Johnson</span></h4>
+                                <p th:text="${doctor.about}">
+                                    Dr. Sarah Johnson is a highly experienced cardiologist with over 10 years of
+                                    experience in treating cardiovascular diseases. She specializes in preventive
+                                    cardiology, heart failure management, and cardiac catheterization procedures.
+                                </p>
+                            </div>
+
+                            <!-- Education & Certifications -->
+                            <div class="detail-section">
+                                <h4><i class="fas fa-certificate"></i> Education & Certifications</h4>
+                                <div class="education-list">
+                                    <div th:each="education : ${doctor.education}" class="education-item">
+                                        <div class="education-icon">
+                                            <i class="fas fa-graduation-cap"></i>
+                                        </div>
+                                        <div class="education-info">
+                                            <h6 th:text="${education.degree}">MBBS</h6>
+                                            <p th:text="${education.institution}">All India Institute of Medical
+                                                Sciences</p>
+                                            <span class="year" th:text="${education.year}">2010</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Specialties -->
+                            <div class="detail-section">
+                                <h4><i class="fas fa-stethoscope"></i> Specialties</h4>
+                                <div class="specialty-tags">
+                                    <span th:each="specialty : ${doctor.specialties}" class="specialty-tag"
+                                        th:text="${specialty}">
+                                        Preventive Cardiology
+                                    </span>
+                                </div>
+                            </div>
+
+                            <!-- Working Hours -->
+                            <div class="detail-section">
+                                <h4><i class="fas fa-clock"></i> Working Hours</h4>
+                                <div class="working-hours">
+                                    <div class="day-schedule" th:each="schedule : ${doctor.workingHours}">
+                                        <span class="day" th:text="${schedule.day}">Monday</span>
+                                        <span class="time" th:text="${schedule.time}">9:00 AM - 6:00 PM</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reviews Section -->
+                            <div class="detail-section">
+                                <h4><i class="fas fa-star"></i> Patient Reviews</h4>
+                                <div class="reviews-summary">
+                                    <div class="rating-breakdown">
+                                        <div class="overall-rating">
+                                            <span class="rating-number" th:text="${doctor.rating}">4.8</span>
+                                            <div class="stars-large">
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star"></i>
+                                                <i class="fas fa-star-half-alt"></i>
+                                            </div>
+                                            <p th:text="${doctor.reviewCount} + ' reviews'">124 reviews</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="reviews-list">
+                                    <div th:each="review : ${doctor.reviews}" class="review-item">
+                                        <div class="review-header">
+                                            <div class="reviewer-info">
+                                                <span class="reviewer-name" th:text="${review.patientName}">John
+                                                    D.</span>
+                                                <div class="review-rating">
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                    <i class="fas fa-star"></i>
+                                                </div>
+                                            </div>
+                                            <span class="review-date" th:text="${review.date}">2 days ago</span>
+                                        </div>
+                                        <p class="review-text" th:text="${review.comment}">
+                                            Excellent doctor! Very professional and caring. Explained everything clearly
+                                            and provided great treatment.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Appointment Booking Modal -->
+    <div class="modal fade" id="appointmentModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Book Appointment with Dr. <span th:text="${doctor.name}">Sarah
+                            Johnson</span></h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="appointmentForm">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="form-label">Preferred Date</label>
+                                <input type="date" class="form-control" name="appointmentDate" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label class="form-label">Preferred Time</label>
+                                <select class="form-control" name="appointmentTime" required>
+                                    <option value="">Select Time</option>
+                                    <option value="09:00">9:00 AM</option>
+                                    <option value="10:00">10:00 AM</option>
+                                    <option value="11:00">11:00 AM</option>
+                                    <option value="14:00">2:00 PM</option>
+                                    <option value="15:00">3:00 PM</option>
+                                    <option value="16:00">4:00 PM</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <label class="form-label">Reason for Visit</label>
+                            <textarea class="form-control" name="reason" rows="3"
+                                placeholder="Describe your symptoms or reason for consultation"></textarea>
+                        </div>
+                        <input type="hidden" name="doctorId" th:value="${doctor.id}">
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="submitAppointment()">Book
+                        Appointment</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function bookAppointment(doctorId) {
+            const modal = new bootstrap.Modal(document.getElementById('appointmentModal'));
+            modal.show();
+        }
+
+        function toggleFavorite(doctorId) {
+            const btn = event.target.closest('button');
+            const icon = btn.querySelector('i');
+
+            if (icon.classList.contains('far')) {
+                icon.classList.remove('far');
+                icon.classList.add('fas');
+                btn.style.color = '#e74c3c';
+            } else {
+                icon.classList.remove('fas');
+                icon.classList.add('far');
+                btn.style.color = '';
+            }
+
+            // API call to toggle favorite
+            fetch('/api/doctors/' + doctorId + '/favorite', {
+                method: 'POST'
+            });
+        }
+
+        function submitAppointment() {
+            const form = document.getElementById('appointmentForm');
+            const formData = new FormData(form);
+
+            fetch('/api/appointments/book', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Appointment booked successfully!');
+                        location.reload();
+                    } else {
+                        alert('Error booking appointment: ' + data.message);
+                    }
+                });
+        }
+    </script>
+</body>
+
+</html>
