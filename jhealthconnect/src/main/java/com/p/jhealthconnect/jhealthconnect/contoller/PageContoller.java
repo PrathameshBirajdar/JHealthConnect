@@ -1,10 +1,10 @@
-package com.p.jhealthconnect.jhealthconnect.controller;
+package com.p.jhealthconnect.jhealthconnect.contoller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class PageController {
+public class PageContoller {
 
     @GetMapping("/")
     public String home() {

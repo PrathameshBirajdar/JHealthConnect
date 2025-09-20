@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment - JHealthConnect</title>
+
+  <!-- ✅ Favicon -->
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+
+  <!-- ✅ Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      height: 100vh;
+      background-color: #eaf6fb;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 220px;
+      background-color: #004b73;
+      color: white;
+      display: flex;
+      flex-direction: column;
+      padding: 15px 0;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+
+    .logo span:first-child {
+      font-family: 'Italianno', cursive;
+      font-size: 28px;
+      font-weight: bold;
+      color: #ffffff;
+    }
+
+    .logo span:last-child {
+      font-family: 'Poppins', sans-serif;
+      font-size: 18px;
+      color: #63c1ff;
+      margin-left: 5px;
+    }
+
+    .menu {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .menu button {
+      background-color: #63b5c5;
+      border: none;
+      border-radius: 12px;
+      color: black;
+      padding: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: left;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.3s;
+    }
+
+    .menu button:hover {
+      background-color: #529cab;
+      color: white;
+    }
+
+    /* Main */
+    .main {
+      flex: 1;
+      background-color: #004b73;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 40px;
+    }
+
+    .form-container {
+      background: white;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 700px;
+      width: 100%;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    }
+
+    .form-container h2 {
+      margin-bottom: 20px;
+      color: #004b73;
+      font-weight: 600;
+    }
+
+    .form-row {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 15px;
+    }
+
+    .form-row input,
+    .form-row select,
+    textarea {
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    textarea {
+      resize: none;
+      height: 80px;
+    }
+
+    .submit-btn {
+      background-color: #63b5c5;
+      border: none;
+      padding: 12px;
+      width: 100%;
+      font-size: 16px;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .submit-btn:hover {
+      background-color: #529cab;
+      color: white;
+    }
+
+    .note {
+      margin-top: 12px;
+      font-size: 12px;
+      color: gray;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar -->
+  <div class="sidebar">
+    <div class="logo">
+      <span>J</span><span>HealthConnect</span>
+    </div>
+    <div class="menu">
+      <button>🏠 Home</button>
+      <button>🩺 Doctor’s</button>
+      <button>📅 Appointment</button>
+      <button>📑 Insurance</button>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main">
+    <div class="form-container">
+      <h2>Book an Appointment</h2>
+      <form>
+        <!-- Row 1 -->
+        <div class="form-row">
+          <input type="text" placeholder="Patient Name" required>
+          <input type="number" placeholder="Age" required>
+        </div>
+
+        <!-- Row 2 -->
+        <div class="form-row">
+          <select required>
+            <option value="">Gender</option>
+            <option value="Male">Male</option>
+            <option value="Female">Female</option>
+            <option value="Other">Other</option>
+          </select>
+          <input type="text" placeholder="Contact" required>
+        </div>
+
+        <!-- Row 3 -->
+        <div class="form-row">
+          <select required>
+            <option value="">Select Doctor</option>
+            <option value="Dr. Ananya Rao">Dr. Ananya Rao (Dermatologist)</option>
+            <option value="Dr. Amit Patil">Dr. Amit Patil (Orthopedic)</option>
+          </select>
+          <input type="date" required>
+        </div>
+
+        <!-- Row 4 -->
+        <div class="form-row">
+          <textarea placeholder="Notes (optional)"></textarea>
+        </div>
+
+        <!-- Button -->
+        <button type="submit" class="submit-btn">Book Appointment</button>
+
+        <p class="note">You can view available doctors on the Doctors page. Times are subject to confirmation.</p>
+      </form>
+    </div>
+  </div>
+</body>
+</html>
