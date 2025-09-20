@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Book Appointment - JHealthConnect</title>
 
-  <!-- ✅ Favicon -->
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-
-  <!-- ✅ Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -57,7 +54,7 @@
       gap: 15px;
     }
 
-    .menu button {
+    .menu a {
       background-color: #63b5c5;
       border: none;
       border-radius: 12px;
@@ -71,9 +68,11 @@
       align-items: center;
       gap: 10px;
       transition: 0.3s;
+      text-decoration: none;
+      margin: 0 15px;
     }
 
-    .menu button:hover {
+    .menu a:hover {
       background-color: #529cab;
       color: white;
     }
@@ -119,6 +118,11 @@
       font-size: 14px;
     }
 
+    .form-row input.error,
+    .form-row select.error {
+      border-color: #dc3545;
+    }
+
     textarea {
       resize: none;
       height: 80px;
@@ -146,6 +150,31 @@
       font-size: 12px;
       color: gray;
     }
+
+    .error-message {
+      color: #dc3545;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+
+    .alert {
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
   </style>
 </head>
 <body>
@@ -155,10 +184,10 @@
       <span>J</span><span>HealthConnect</span>
     </div>
     <div class="menu">
-      <button>🏠 Home</button>
-      <button>🩺 Doctor’s</button>
-      <button>📅 Appointment</button>
-      <button>📑 Insurance</button>
+      <a th:href="@{/}">🏠 Home</a>
+      <a th:href="@{/doctors}">🩺 Doctor's</a>
+      <a th:href="@{/appointments/book}">📅 Appointment</a>
+      <a th:href="@{/insurance}">🔒 Insurance</a>
     </div>
   </div>
 
@@ -166,43 +195,74 @@
   <div class="main">
     <div class="form-container">
       <h2>Book an Appointment</h2>
-      <form>
+      
+      <!-- Success/Error Messages -->
+      <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+      <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
+      
+      <form th:action="@{/appointments/book}" th:object="${appointment}" method="post">
         <!-- Row 1 -->
         <div class="form-row">
-          <input type="text" placeholder="Patient Name" required>
-          <input type="number" placeholder="Age" required>
+          <div style="flex: 1;">
+            <input type="text" th:field="*{patientName}" placeholder="Patient Name" 
+                   th:class="${#fields.hasErrors('patientName')} ? 'error' : ''" required>
+            <div th:if="${#fields.hasErrors('patientName')}" class="error-message" th:errors="*{patientName}"></div>
+          </div>
+          <div style="flex: 1;">
+            <input type="number" th:field="*{age}" placeholder="Age" min="1" max="120"
+                   th:class="${#fields.hasErrors('age')} ? 'error' : ''" required>
+            <div th:if="${#fields.hasErrors('age')}" class="error-message" th:errors="*{age}"></div>
+          </div>
         </div>
 
         <!-- Row 2 -->
         <div class="form-row">
-          <select required>
-            <option value="">Gender</option>
-            <option value="Male">Male</option>
-            <option value="Female">Female</option>
-            <option value="Other">Other</option>
-          </select>
-          <input type="text" placeholder="Contact" required>
+          <div style="flex: 1;">
+            <select th:field="*{gender}" th:class="${#fields.hasErrors('gender')} ? 'error' : ''" required>
+              <option value="">Gender</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
+            </select>
+            <div th:if="${#fields.hasErrors('gender')}" class="error-message" th:errors="*{gender}"></div>
+          </div>
+          <div style="flex: 1;">
+            <input type="tel" th:field="*{contact}" placeholder="Contact (10 digits)" pattern="[0-9]{10}"
+                   th:class="${#fields.hasErrors('contact')} ? 'error' : ''" required>
+            <div th:if="${#fields.hasErrors('contact')}" class="error-message" th:errors="*{contact}"></div>
+          </div>
         </div>
 
         <!-- Row 3 -->
         <div class="form-row">
-          <select required>
-            <option value="">Select Doctor</option>
-            <option value="Dr. Ananya Rao">Dr. Ananya Rao (Dermatologist)</option>
-            <option value="Dr. Amit Patil">Dr. Amit Patil (Orthopedic)</option>
-          </select>
-          <input type="date" required>
+          <div style="flex: 1;">
+            <select th:field="*{doctor}" th:class="${#fields.hasErrors('doctor')} ? 'error' : ''" required>
+              <option value="">Select Doctor</option>
+              <option th:each="doctor : ${doctors}" 
+                      th:value="${doctor.id}" 
+                      th:text="${doctor.name + ' (' + doctor.specialization + ')'}"
+                      th:selected="${appointment.doctor != null && appointment.doctor.id == doctor.id}">
+              </option>
+            </select>
+            <div th:if="${#fields.hasErrors('doctor')}" class="error-message" th:errors="*{doctor}"></div>
+          </div>
+          <div style="flex: 1;">
+            <input type="date" th:field="*{appointmentDate}" 
+                   th:class="${#fields.hasErrors('appointmentDate')} ? 'error' : ''" 
+                   th:min="${#dates.format(#dates.createNow(), 'yyyy-MM-dd')}" required>
+            <div th:if="${#fields.hasErrors('appointmentDate')}" class="error-message" th:errors="*{appointmentDate}"></div>
+          </div>
         </div>
 
         <!-- Row 4 -->
         <div class="form-row">
-          <textarea placeholder="Notes (optional)"></textarea>
+          <textarea th:field="*{notes}" placeholder="Notes (optional)"></textarea>
         </div>
 
         <!-- Button -->
         <button type="submit" class="submit-btn">Book Appointment</button>
 
-        <p class="note">You can view available doctors on the Doctors page. Times are subject to confirmation.</p>
+        <p class="note">You can view available doctors on the Doctors page. Appointment times are subject to confirmation.</p>
       </form>
     </div>
   </div>

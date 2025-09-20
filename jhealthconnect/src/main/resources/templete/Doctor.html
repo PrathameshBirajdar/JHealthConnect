@@ -1,14 +1,11 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Doctor's - JHealthConnect</title>
 
-  <!-- ✅ Favicon -->
-  <link rel="icon" type="image/png" href="assets/favicon.png">
-
-  <!-- ✅ Fonts -->
+  <!-- Fonts -->
   <link href="https://fonts.googleapis.com/css2?family=Italianno&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
@@ -57,7 +54,7 @@
       gap: 15px;
     }
 
-    .menu button {
+    .menu a {
       background-color: #63b5c5;
       border: none;
       border-radius: 12px;
@@ -71,9 +68,11 @@
       align-items: center;
       gap: 10px;
       transition: 0.3s;
+      text-decoration: none;
+      margin: 0 15px;
     }
 
-    .menu button:hover {
+    .menu a:hover {
       background-color: #529cab;
       color: white;
     }
@@ -93,12 +92,44 @@
       padding: 10px 20px;
       font-size: 22px;
       font-weight: bold;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .search-form {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .search-form input {
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+
+    .search-form button {
+      padding: 8px 15px;
+      background: #63b5c5;
+      color: black;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .search-form button:hover {
+      background: #529cab;
+      color: white;
     }
 
     .doctor-container {
       display: flex;
       gap: 25px;
       margin-top: 20px;
+      flex-wrap: wrap;
     }
 
     .doctor-card {
@@ -116,6 +147,19 @@
       width: 100%;
       height: 220px;
       object-fit: cover;
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+
+    .doctor-placeholder {
+      width: 100%;
+      height: 220px;
+      background: linear-gradient(135deg, #63b5c5, #004b73);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 60px;
       border-top-left-radius: 15px;
       border-top-right-radius: 15px;
     }
@@ -140,11 +184,40 @@
       margin: 10px 0 15px;
       cursor: pointer;
       transition: 0.3s;
+      text-decoration: none;
+      display: inline-block;
     }
 
     .book-btn:hover {
       background-color: #849cff;
       color: white;
+      text-decoration: none;
+    }
+
+    .no-doctors {
+      color: white;
+      text-align: center;
+      margin-top: 50px;
+      font-size: 18px;
+    }
+
+    .alert {
+      padding: 15px;
+      margin: 20px;
+      border-radius: 8px;
+      font-weight: bold;
+    }
+
+    .alert-success {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
     }
   </style>
 </head>
@@ -155,38 +228,45 @@
       <span>J</span><span>HealthConnect</span>
     </div>
     <div class="menu">
-      <button>🏠 Home</button>
-      <button>🩺 Doctor’s</button>
-      <button>📅 Appointment</button>
-      <button>📑 Insurance</button>
+      <a th:href="@{/}">🏠 Home</a>
+      <a th:href="@{/doctors}">🩺 Doctor's</a>
+      <a th:href="@{/appointments/book}">📅 Appointment</a>
+      <a th:href="@{/insurance}">🔒 Insurance</a>
     </div>
   </div>
 
   <!-- Main Content -->
   <div class="main">
-    <div class="topbar">Our Doctors</div>
+    <div class="topbar">
+      <span>Our Doctors</span>
+      
+      <!-- Search Form -->
+      <form th:action="@{/doctors/search}" method="get" class="search-form">
+        <input type="text" name="specialization" placeholder="Search by specialization" 
+               th:value="${param.specialization}">
+        <input type="text" name="name" placeholder="Search by name" 
+               th:value="${param.name}">
+        <button type="submit">Search</button>
+        <a th:href="@{/doctors}" style="color: #63c1ff; text-decoration: none; margin-left: 10px;">Clear</a>
+      </form>
+    </div>
+
+    <!-- Success/Error Messages -->
+    <div th:if="${success}" class="alert alert-success" th:text="${success}"></div>
+    <div th:if="${error}" class="alert alert-error" th:text="${error}"></div>
 
     <div class="doctor-container">
-      <!-- Doctor 1 -->
-      <div class="doctor-card">
-        <img src="assets/doctor1.jpg" alt="Dr. Ananya Rao">
-        <div class="doctor-info">
-          <p><b>Name:</b> Dr. Ananya Rao</p>
-          <p><b>Specialist:</b> Dermatologist (Skin and Hair)</p>
+      <!-- Display doctors dynamically -->
+      <div th:each="doctor : ${doctors}" class="doctor-card">
+        <!-- Use placeholder if no image or show default medical icon -->
+        <div th:if="${doctor.imageUrl == null or doctor.imageUrl.isEmpty()}" class="doctor-placeholder">
+          🩺
         </div>
-        <button class="book-btn">Book</button>
-      </div>
-
-      <!-- Doctor 2 -->
-      <div class="doctor-card">
-        <img src="assets/doctor2.jpg" alt="Dr. Amit Patil">
+        <img th:if="${doctor.imageUrl != null and !doctor.imageUrl.isEmpty()}" 
+             th:src="@{${doctor.imageUrl}}" 
+             th:alt="${doctor.name}" 
+             onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
+        <div class="doctor-placeholder" style="display: none;">🩺</div>
+        
         <div class="doctor-info">
-          <p><b>Name:</b> Dr. Amit Patil</p>
-          <p><b>Specialist:</b> Orthopedic (Bones)</p>
-        </div>
-        <button class="book-btn">Book</button>
-      </div>
-    </div>
-  </div>
-</body>
-</html>
+          <p><b>Name:</b> <span th:text="${doctor.name}">Dr
