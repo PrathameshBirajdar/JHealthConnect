@@ -2,6 +2,8 @@ package com.jhealthconnect.config;
 
 import com.jhealthconnect.entity.*;
 import com.jhealthconnect.repository.*;
+
+import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -14,20 +16,18 @@ import java.util.List;
 @Component
 public class DataLoader implements CommandLineRunner {
 
-    @Autowired
-    private Repository userRepository;
-    
-    @Autowired
-    private Repository doctorRepository;
-    
-    @Autowired
-    private Repository insuranceRepository;
+    // Correct
+@Autowired
+private UserRepository userRepository;
 
-    @Autowired
-    private Repository appointmentRepository;
+@Autowired
+private DoctorRepository doctorRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+@Autowired  
+private AppointmentRepository appointmentRepository;
+
+@Autowired
+private InsuranceCompanyRepository insuranceCompanyRepository;
 
     @Override
     public void run(String... args) throws Exception {
