@@ -1,7 +1,5 @@
 package com.jhealthconnect.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-
 import com.jhealthconnect.service.AppointmentService;
 import com.jhealthconnect.service.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,8 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-@RequestMapping("/admin")
-public class AdminController extends BaseController {
+public class HomeController extends BaseController {
 
     @Autowired
     private DoctorService doctorService;
@@ -19,10 +16,10 @@ public class AdminController extends BaseController {
     @Autowired
     private AppointmentService appointmentService;
 
-    @GetMapping("/dashboard")
-    public String dashboard(Model model) {
-        model.addAttribute("doctorCount", doctorService.countDoctors());
-        model.addAttribute("pendingAppointments", appointmentService.countPendingAppointments());
-        return "admin_dashboard";
+    @GetMapping("/")
+    public String home(Model model) {
+        model.addAttribute("topDoctors", doctorService.getTopDoctors(5));
+        model.addAttribute("pendingAppointments", appointmentService.getPendingAppointments());
+        return "index";
     }
 }

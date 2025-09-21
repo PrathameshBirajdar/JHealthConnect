@@ -2,22 +2,134 @@
 <html xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <title>Doctors</title>
-    <link rel="stylesheet" href="css/style.css">
+    <meta charset="UTF-8">
+    <title>Doctors - JHealthConnect</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .search-filter {
+            display: flex;
+            gap: 15px;
+            margin: 15px 0;
+            align-items: center;
+        }
+
+        .search-filter input,
+        .search-filter select {
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        .doctors-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .doctor-card {
+            background: #fff;
+            border-radius: 12px;
+            padding: 15px;
+            width: 250px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            text-align: center;
+        }
+
+        .doctor-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .doctor-card img {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .doctor-card h3 {
+            margin: 5px 0;
+            font-size: 18px;
+        }
+
+        .doctor-card p {
+            margin: 3px 0;
+            color: #555;
+        }
+    </style>
 </head>
 
 <body>
-    <!-- Sidebar -->
-    <div th:replace="fragments/sidebar :: *"></div>
+    <div class="layout">
+        <!-- Sidebar -->
+        <div th:replace="fragments/sidebar :: sidebar"></div>
 
-    <!-- Page Content -->
-    <div class="content">
-        <h1>Doctors List</h1>
-        <ul>
-            <li th:each="doctor : ${doctors}" th:text="${doctor.name}"></li>
-        </ul>
-        <a href="/doctors/add">➕ Add New Doctor</a>
+        <!-- Main -->
+        <div class="main">
+            <!-- Header -->
+            <div th:replace="fragments/header :: header"></div>
+
+            <!-- Content -->
+            <div class="content">
+                <h2>Doctors</h2>
+
+                <!-- Add Doctor (admin use only, optional) -->
+                <a th:href="@{/doctors/add}" class="btn primary">+ Add Doctor</a>
+
+                <!-- Search + Filter -->
+                <div class="search-filter">
+                    <input type="text" id="searchInput" placeholder="Search by Name or Hospital...">
+                    <select id="specializationFilter">
+                        <option value="">All Specializations</option>
+                        <option value="Cardiologist">Cardiologist</option>
+                        <option value="Dermatologist">Dermatologist</option>
+                        <option value="Neurologist">Neurologist</option>
+                        <option value="Orthopedic">Orthopedic</option>
+                    </select>
+                </div>
+
+                <!-- Doctor Cards -->
+                <div class="doctors-container" id="doctorsList">
+                    <div class="doctor-card" th:each="doc : ${doctors}"
+                        th:onclick="'window.location.href=\'/doctors/' + ${doc.id} + '\''">
+                        <img th:src="@{${doc.imageUrl}}" alt="Doctor">
+                        <h3 th:text="${doc.name}">Dr. Name</h3>
+                        <p th:text="${doc.specialization}">Specialization</p>
+                        <p><i class="fa-solid fa-hospital"></i> <span th:text="${doc.hospital}">Hospital</span></p>
+                        <p><i class="fa-solid fa-envelope"></i> <span th:text="${doc.email}">Email</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
+    <script>
+        // 🔍 Search + Filter
+        const searchInput = document.getElementById("searchInput");
+        const specializationFilter = document.getElementById("specializationFilter");
+        const cards = document.querySelectorAll(".doctor-card");
+
+        function filterDoctors() {
+            const searchValue = searchInput.value.toLowerCase();
+            const specValue = specializationFilter.value;
+
+            cards.forEach(card => {
+                const text = card.innerText.toLowerCase();
+                const specialization = card.querySelector("p").innerText;
+
+                const matchesSearch = text.includes(searchValue);
+                const matchesSpec = !specValue || specialization === specValue;
+
+                card.style.display = matchesSearch && matchesSpec ? "" : "none";
+            });
+        }
+
+        searchInput.addEventListener("input", filterDoctors);
+        specializationFilter.addEventListener("change", filterDoctors);
+    </script>
 </body>
 
 </html>

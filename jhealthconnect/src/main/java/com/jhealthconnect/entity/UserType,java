@@ -1,7 +1,0 @@
-package com.jhealthconnect.entity;
-
-public enum UserType {
-    ADMIN,
-    PATIENT,
-    DOCTOR
-}
