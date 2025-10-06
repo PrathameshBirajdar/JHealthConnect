@@ -1,11 +1,13 @@
+// DoctorService.java
 package com.jhealthconnect.service;
 
-import com.jhealthconnect.entity.Doctor;
-import com.jhealthconnect.repository.DoctorRepository;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import com.jhealthconnect.entity.Doctor;
+import com.jhealthconnect.repository.DoctorRepository;
 
 @Service
 public class DoctorService {
@@ -17,16 +19,23 @@ public class DoctorService {
         return doctorRepository.findAll();
     }
 
+    public List<Doctor> getActiveDoctors() {
+        return doctorRepository.findByStatus("ACTIVE");
+    }
+
+    public List<Doctor> getDoctorsBySpecialization(String specialization) {
+        return doctorRepository.findBySpecialization(specialization);
+    }
+
     public Doctor getDoctorById(Long id) {
         return doctorRepository.findById(id).orElse(null);
     }
 
-    public long countDoctors() {
-        return doctorRepository.count();
+    public Doctor saveDoctor(Doctor doctor) {
+        return doctorRepository.save(doctor);
     }
 
-    public List<Doctor> getTopDoctors(int limit) {
-        List<Doctor> all = doctorRepository.findAll();
-        return all.stream().limit(limit).toList(); // simple fallback
+    public void deleteDoctor(Long id) {
+        doctorRepository.deleteById(id);
     }
 }

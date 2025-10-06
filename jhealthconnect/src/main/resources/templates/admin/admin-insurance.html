@@ -1,0 +1,36 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Admin - Insurance</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/admin-navbar :: navbar}"></div>
+
+    <h2 style="margin:20px;">Manage Insurance</h2>
+
+     Add new insurance form
+    <form th:action="@{/admin/insurance/save}" method="post" style="margin:20px;">
+        <input type="text" name="name" placeholder="Insurance Name" required>
+        <input type="text" name="provider" placeholder="Provider" required>
+        <input type="text" name="phone" placeholder="Phone" required>
+        <button type="submit" class="btn">Add Insurance</button>
+    </form>
+
+    <div class="card-container">
+        <div class="card" th:each="i : ${insurances}">
+            <img th:src="@{/images/insurance.png}" alt="Insurance">
+            <div class="card-body">
+                <h3 th:text="${i.name}">Insurance Name</h3>
+                <p><b>Provider:</b> <span th:text="${i.provider}"></span></p>
+                <p><b>Phone:</b> <span th:text="${i.phone}"></span></p>
+                <a th:href="@{'/admin/insurance/delete/' + ${i.id}}" class="btn">Delete</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html> -->

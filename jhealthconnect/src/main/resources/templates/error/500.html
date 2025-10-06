@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>500 - Server Error</title>
+</head>
+
+<body layout:decorate="~{base}">
+    <div layout:fragment="content" style="text-align: center; padding: 50px;">
+        <h1>500</h1>
+        <p>Oops! Something went wrong on our server.</p>
+
+        <a th:if="${uri != null and #strings.contains(uri, '/admin')}" th:href="@{/admin/layout}">Go back Admin Home</a>
+        <a th:if="${uri != null and #strings.contains(uri, '/user')}" th:href="@{/user/layout}">Go back User Home</a>
+        <a th:if="${uri == null}" th:href="@{/}">Go back Home</a>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Manage Recommendations</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h2 style="margin:20px;">Manage Recommendations</h2>
+
+        <!-- Add Recommendation Form -->
+        <div style="margin:20px; padding:20px; background:white; border-radius:10px; max-width:600px;">
+            <h3>Create New Recommendation</h3>
+            <form th:action="@{/admin/recommendations/save}" method="post">
+                <div style="margin:10px 0;">
+                    <input type="text" name="title" placeholder="Title" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                </div>
+                <div style="margin:10px 0;">
+                    <textarea name="description" placeholder="Description" rows="3" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea>
+                </div>
+                <div style="margin:10px 0;">
+                    <input type="text" name="message" placeholder="Short Message" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                </div>
+                <div style="margin:10px 0;">
+                    <select name="doctorId" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                        <option value="">Select Doctor</option>
+                        <option th:each="doc : ${doctors}" th:value="${doc.id}"
+                            th:text="${doc.name} + ' - ' + ${doc.specialization}">Doctor</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn">Create Recommendation</button>
+            </form>
+        </div>
+
+        <!-- Recommendations List -->
+        <div class="card-container">
+            <div class="card" th:each="r : ${recommendations}">
+                <img th:src="@{/images/doctor.png}" alt="Recommendation">
+                <div class="card-body">
+                    <h3 th:text="${r.title}">Title</h3>
+                    <p th:text="${r.description}">Description</p>
+                    <p><b>Doctor:</b> <span th:text="${r.doctor.name}"></span></p>
+                    <a th:href="@{'/admin/recommendation/delete/' + ${r.id}}" class="btn"
+                        onclick="return confirm('Delete this recommendation?')">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

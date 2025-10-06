@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Manage Doctors</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h2 style="margin:20px;">Manage Doctors</h2>
+
+        <!-- Add Doctor Form -->
+        <div style="margin:20px; padding:20px; background:white; border-radius:10px; max-width:600px;">
+            <h3>Add New Doctor</h3>
+            <form th:action="@{/admin/doctors/save}" method="post">
+                <div style="margin:10px 0;">
+                    <input type="text" name="name" placeholder="Doctor Name" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                </div>
+                <div style="margin:10px 0;">
+                    <input type="text" name="specialization" placeholder="Specialization" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                </div>
+                <div style="margin:10px 0;">
+                    <input type="number" name="experience" placeholder="Years of Experience" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                </div>
+                <div style="margin:10px 0;">
+                    <input type="text" name="phone" placeholder="Phone Number" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;">
+                </div>
+                <div style="margin:10px 0;">
+                    <textarea name="description" placeholder="Description" rows="3" required
+                        style="width:100%; padding:10px; border:1px solid #ddd; border-radius:5px;"></textarea>
+                </div>
+                <button type="submit" class="btn">Add Doctor</button>
+            </form>
+        </div>
+
+        <!-- Doctors List -->
+        <div class="card-container">
+            <div class="card" th:each="d : ${doctors}">
+                <img th:src="@{/images/doctor.png}" alt="Doctor">
+                <div class="card-body">
+                    <h3 th:text="${d.name}">Doctor Name</h3>
+                    <p><b>Specialist:</b> <span th:text="${d.specialization}"></span></p>
+                    <p><b>Experience:</b> <span th:text="${d.experience}"></span> years</p>
+                    <p><b>Phone:</b> <span th:text="${d.phone}"></span></p>
+                    <p><b>Status:</b> <span th:text="${d.status}"></span></p>
+                    <a th:href="@{'/admin/doctor/delete/' + ${d.id}}" class="btn"
+                        onclick="return confirm('Delete this doctor?')">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>AdminDashboard</title>
+</head>
+
+<body>
+
+    <div th:replace="~{base :: body}"></div>
+
+    <div layout:fragment="layout-content">
+        <h2 style="margin:20px;">Welcome, <span th:text="${user.username}">Admin</span>!</h2>
+        <p style="margin:20px;">Manage doctors and recommendations from here.</p>
+
+        <div class="card-container">
+            <!-- Doctors Management -->
+            <div class="card" style="width:100%; max-width:600px;">
+                <div class="card-body">
+                    <h3>Doctors Management</h3>
+                    <p>Total Doctors: <span th:text="${#lists.size(doctors)}">0</span></p>
+                    <a th:href="@{/admin/doctors}" class="btn">Manage Doctors</a>
+                </div>
+            </div>
+
+            <!-- Recommendations Management -->
+            <div class="card" style="width:100%; max-width:600px;">
+                <div class="card-body">
+                    <h3>Recommendations</h3>
+                    <p>Total Recommendations: <span th:text="${#lists.size(recommendations)}">0</span></p>
+                    <a th:href="@{/admin/recommendations}" class="btn">Manage Recommendations</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Recommendations</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/user-navbar :: navbar}"></div>
+
+    <h2 style="margin:20px;">Your Recommendations</h2>
+
+    <div class="card-container">
+
+        <div class="card" th:each="r : ${recommendations}">
+            <img th:src="${r.imageUrl}" alt="Recommendation">
+            <div class="card-body">
+                <h3 th:text="${r.title}">Recommendation Title</h3>
+                <p th:text="${r.description}">Recommendation Description</p>
+
+                <!-- Dynamic redirect based on type -->
+                <a th:if="${r.type == 'doctor'}" th:href="@{'/user/doctors/' + ${r.referenceId}}" class="btn">View
+                    Doctor</a>
+
+                <a th:if="${r.type == 'insurance'}" th:href="@{'/user/insurance/' + ${r.referenceId}}" class="btn">View
+                    Insurance</a>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{base}">
+
+<head>
+    <title>Doctors</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h2>Our Doctors</h2>
+        <div class="card-container">
+            <div class="card" th:each="d : ${doctors}">
+                <img th:src="@{/images/doctor.png}" alt="Doctor Image"> <!-- placeholder -->
+                <div class="card-body">
+                    <h3 th:text="${d.name}">Doctor Name</h3>
+                    <p><b>Specialist:</b> <span th:text="${d.specialization}"></span></p>
+                    <a th:href="@{'/user/doctor/' + ${d.id}}" class="btn">Book</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>

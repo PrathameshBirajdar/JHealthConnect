@@ -1,15 +1,17 @@
-package com.jhealthconnect.repository;
 
-import com.jhealthconnect.entity.User;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
+// UserRepository.java
+package com.jhealthconnect.repository;
 
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+
+import com.jhealthconnect.entity.User;
+
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
+    Optional<User> findByEmail(String email);
 
-    User findByUsername(String username);
-    User findByEmail(String email);
-
+    boolean existsByEmail(String email);
 }

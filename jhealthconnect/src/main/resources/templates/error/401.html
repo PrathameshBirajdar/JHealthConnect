@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+    <title>401 - Unauthorized</title>
+</head>
+
+<body layout:decorate="~{base}">
+    <div layout:fragment="content" style="text-align: center; padding: 50px;">
+        <h1>401</h1>
+        <p>You are not authorized to view this page. Please log in first.</p>
+        <a th:href="@{${/}}">Go to Login</a>
+    </div>
+</body>
+
+</html>

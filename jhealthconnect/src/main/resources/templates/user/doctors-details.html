@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Doctor Details - JHealthConnect</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: url("https://st4.depositphotos.com/35773592/39447/i/450/depositphotos_394475250-stock-photo-medical-health-care-background-abstract.jpg") no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .topbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(0, 68, 102, 0.9);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 20px;
+            border-radius: 0 0 20px 20px;
+            z-index: 2000;
+            color: white;
+        }
+
+        .topbar .menu-toggle {
+            cursor: pointer;
+            font-size: 18px;
+        }
+
+        .user-menu {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .dropdown {
+            display: block;
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background: rgb(223, 152, 152);
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+            min-width: 170px;
+            z-index: 2500;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px) scale(0.95);
+            transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+        }
+
+        .dropdown.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0) scale(1);
+        }
+
+        .dropdown p {
+            margin: 4px 10px;
+            font-size: 14px;
+            color: #333;
+        }
+
+        .dropdown button {
+            width: 100%;
+            padding: 10px 12px;
+            background: #f5f5f5;
+            border: none;
+            text-align: left;
+            color: #333;
+            cursor: pointer;
+        }
+
+        .left-sidebar {
+            width: 250px;
+            background: rgba(0, 51, 102, 0.95);
+            position: fixed;
+            top: 60px;
+            left: 0;
+            bottom: 0;
+            padding: 20px;
+            border-radius: 0 20px 20px 0;
+            transform: translateX(-260px) scale(0.95);
+            opacity: 0;
+            transition: transform 0.4s ease-in-out, opacity 0.4s ease-in-out;
+            z-index: 1100;
+            visibility: hidden;
+        }
+
+        .left-sidebar.show {
+            transform: translateX(0) scale(1);
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .left-sidebar .logo {
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 18px;
+            background: #026b8a;
+            margin-bottom: 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: white;
+            transition: background 0.3s ease;
+        }
+
+        .nav-item:hover {
+            background: #0288d1;
+        }
+
+        .content {
+            margin-top: 70px;
+            padding: 20px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: #2575fc;
+            text-decoration: none;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .back-link:hover {
+            color: #6a11cb;
+        }
+
+        .doctor-detail-card {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+        }
+
+        .doctor-header {
+            display: flex;
+            gap: 30px;
+            margin-bottom: 30px;
+            align-items: center;
+        }
+
+        .doctor-image-large {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            object-fit: cover;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .doctor-info h1 {
+            font-size: 32px;
+            color: #003366;
+            margin: 0 0 10px 0;
+        }
+
+        .specialty-badge {
+            display: inline-block;
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 15px;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-item {
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .info-item label {
+            font-size: 12px;
+            color: #666;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .info-item value {
+            font-size: 18px;
+            color: #003366;
+            font-weight: 600;
+        }
+
+        .description-section {
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .description-section h3 {
+            color: #003366;
+            margin-bottom: 10px;
+        }
+
+        .book-appointment-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .book-appointment-btn:hover {
+            transform: scale(1.02);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="topbar">
+        <div class="menu-toggle" onclick="toggleSidebar()">
+            <i class="fas fa-bars"></i> User Panel
+        </div>
+        <div class="user-menu">
+            <span onclick="toggleUserMenu()"><i class="fas fa-user-circle"></i></span>
+            <div id="userDropdown" class="dropdown">
+                <div style="padding:10px; border-bottom:1px solid #eee;">
+                    <p><b>Profile:</b> <span th:text="${user.username}">User</span></p>
+                    <p><b>Email:</b> <span th:text="${user.email}">user@email.com</span></p>
+                    <p><b>Role:</b> USER</p>
+                </div>
+                <form th:action="@{/logout}" method="post">
+                    <button type="submit"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="left-sidebar" id="sidebar">
+        <div class="logo">User Panel</div>
+        <a th:href="@{/user/layout}" class="nav-item">
+            <i class="fas fa-home"></i> Home
+        </a>
+        <a th:href="@{/user/doctors}" class="nav-item">
+            <i class="fas fa-user-md"></i> Doctors
+        </a>
+        <a th:href="@{/user/recommendations}" class="nav-item">
+            <i class="fas fa-lightbulb"></i> Recommendations
+        </a>
+    </div>
+
+    <div class="content">
+        <a th:href="@{/user/layout}" class="back-link">
+            <i class="fas fa-arrow-left"></i> Back to Dashboard
+        </a>
+
+        <div class="doctor-detail-card">
+            <div class="doctor-header">
+                <img th:src="${doctor.imageUrl}" th:alt="${doctor.name}" class="doctor-image-large"
+                    onerror="this.src='https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=400&h=400&fit=crop'">
+                <div class="doctor-info">
+                    <h1 th:text="${doctor.name}">Dr. Sarah Johnson</h1>
+                    <span class="specialty-badge" th:text="${doctor.specialization}">Cardiologist</span>
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <label>Experience</label>
+                    <value th:text="${doctor.experience} + ' Years'">15 Years</value>
+                </div>
+                <div class="info-item">
+                    <label>Contact</label>
+                    <value th:text="${doctor.phone}">+1-555-0101</value>
+                </div>
+                <div class="info-item">
+                    <label>Status</label>
+                    <value th:text="${doctor.status}">ACTIVE</value>
+                </div>
+            </div>
+
+            <div class="description-section">
+                <h3><i class="fas fa-info-circle"></i> About</h3>
+                <p th:text="${doctor.description}">Expert in heart diseases with years of experience...</p>
+            </div>
+
+            <button class="book-appointment-btn" onclick="alert('Appointment booking feature coming soon!')">
+                <i class="fas fa-calendar-check"></i> Book Appointment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        function toggleSidebar() {
+            document.getElementById("sidebar").classList.toggle("show");
+        }
+
+        function toggleUserMenu() {
+            document.getElementById("userDropdown").classList.toggle("show");
+        }
+
+        window.onclick = function (e) {
+            if (!e.target.closest('.user-menu')) {
+                document.getElementById("userDropdown").classList.remove("show");
+            }
+        };
+    </script>
+</body>
+
+</html>

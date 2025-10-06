@@ -1,0 +1,29 @@
+<!-- <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>User - My Appointments</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+
+<body>
+    <div th:replace="~{fragments/user-navbar :: navbar}"></div>
+
+    <h2 style="margin:20px;">My Appointments</h2>
+
+    <div class="card-container">
+        <div class="card" th:each="a : ${appointments}">
+            <img th:src="@{/images/appointment.png}" alt="Appointment">
+            <div class="card-body">
+                <h3>Appointment ID: <span th:text="${a.id}"></span></h3>
+                <p><b>Doctor:</b> <span th:text="${a.doctor.name}"></span></p>
+                <p><b>Date:</b> <span th:text="${#temporals.format(a.dateTime, 'yyyy-MM-dd HH:mm')}"></span></p>
+                <p><b>Status:</b> <span th:text="${a.status}"></span></p>
+                <a th:href="@{'/user/appointment/cancel/' + ${a.id}}" class="btn">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html> -->
